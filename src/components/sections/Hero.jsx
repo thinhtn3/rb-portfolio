@@ -3,8 +3,24 @@ import { HyperText } from "@/components/ui/hyper-text.jsx";
 import { TextAnimate } from "@/components/ui/text-animate.jsx";
 import { TechStack } from "@/components/custom_ui/hero/TechStack.jsx";
 import { Hyperlinks } from "@/components/custom_ui/hero/Hyperlinks.jsx";
+import { RippleButton } from "@/components/ui/ripple-button";
+import { motion } from "motion/react";
+
+const navButtons = [
+  { name: "About Me", href: "#about" },
+  { name: "View Projects", href: "#projects" },
+  { name: "Contact", href: "#contact" },
+];
 
 export function Hero() {
+  const handleClick = (e, href) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative overflow-hidden">
       {/* Speed lines background */}
@@ -61,6 +77,30 @@ export function Hero() {
           {/* Hyperlinks */}
           <div className="2xl:mt-8">
             <Hyperlinks />
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="mt-8 2xl:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 2xl:gap-4 justify-center lg:justify-start">
+            {navButtons.map((button, index) => (
+              <motion.a
+                key={button.name}
+                href={button.href}
+                onClick={(e) => handleClick(e, button.href)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+              >
+                <RippleButton
+                  className="bg-transparent border-2 border-accent hover:bg-accent/10 w-full sm:w-40 2xl:w-44 h-12 2xl:h-14 rounded-sm group font-bold uppercase tracking-wide"
+                  rippleColor="var(--color-accent)"
+                >
+                  <span className="text-accent group-hover:text-highlight transition-colors flex items-center justify-center gap-2 text-xs 2xl:text-sm">
+                    {button.name}
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </span>
+                </RippleButton>
+              </motion.a>
+            ))}
           </div>
         </div>
 
