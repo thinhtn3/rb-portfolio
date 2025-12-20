@@ -89,7 +89,7 @@ export function Navbar() {
               className="flex items-center"
             >
               {/* Driver number style */}
-              <div className="px-2 py-1 -skew-x-12">
+              <div className="px-2  -skew-x-12">
                 <img src={siteLogo} alt="Site Logo" className="w-12 h-12" />
               </div>
               <div className="ml-3 border-l-2 border-highlight pl-3">
