@@ -25,6 +25,7 @@ const projects = [
     image: finvisorImage,
     github: "https://github.com/thinhtn3/finVisor",
     devpost: "https://devpost.com/software/finvisor-p30hcd",
+    winner: "1st Place",
   },
   {
     title: "LoopAI",
@@ -40,6 +41,7 @@ const projects = [
     image: rateMyCalendarImage,
     github: "https://github.com/winstonjgiang/RateMyCalendar",
     devpost: "https://devpost.com/software/ratemycalendar",
+    winner: "3rd Place",
   },
   {
     title: "Munch",
@@ -89,12 +91,23 @@ export function Projects() {
                 group relative overflow-hidden rounded-sm bg-secondary
                 transition-transform duration-300 hover:-translate-y-1
                 ${project.featured ? "md:col-span-2 md:row-span-2" : ""}
+                ${project.winner ? "ring-2 ring-highlight/50" : ""}
               `}
             >
               {/* Diagonal accent stripe */}
-              <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden z-10">
                 <div className="absolute top-4 -right-8 w-32 h-6 bg-accent rotate-45 opacity-80" />
               </div>
+
+              {/* Winner badge */}
+              {project.winner && (
+                <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-highlight px-3 py-1.5 rounded-sm -skew-x-12">
+                  {/* <span className="text-lg skew-x-12">🏆</span> */}
+                  <span className="text-xs font-black text-primary uppercase tracking-wide skew-x-12">
+                    {project.winner}
+                  </span>
+                </div>
+              )}
 
               {/* Project image with overlay */}
               <div className={`relative ${project.featured ? "h-80" : "h-64"}`}>
