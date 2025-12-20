@@ -78,9 +78,9 @@ export function Navbar() {
         }`}
       >
         {/* Top racing stripe */}
-        <div className="h-1 bg-accent" />
+        <div className="h-1 2xl:h-1.5 bg-accent" />
 
-        <div className="max-w-7xl mx-auto px-6 py-3">
+        <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 2xl:px-10 py-3 2xl:py-4">
           <div className="flex items-center justify-between">
             {/* Pit board style logo */}
             <a
@@ -89,14 +89,14 @@ export function Navbar() {
               className="flex items-center"
             >
               {/* Driver number style */}
-              <div className="px-2  -skew-x-12">
-                <img src={siteLogo} alt="Site Logo" className="w-12 h-12" />
+              <div className="px-2 -skew-x-12">
+                <img src={siteLogo} alt="Site Logo" className="w-12 h-12 2xl:w-14 2xl:h-14" />
               </div>
-              <div className="ml-3 border-l-2 border-highlight pl-3">
-                <span className="text-xs text-text-secondary uppercase tracking-widest">
+              <div className="ml-3 2xl:ml-4 border-l-2 border-highlight pl-3 2xl:pl-4">
+                <span className="text-xs 2xl:text-sm text-text-secondary uppercase tracking-widest">
                   NGUYEN
                 </span>
-                <span className="block text-sm font-bold text-text-primary uppercase -mt-1">
+                <span className="block text-sm 2xl:text-base font-bold text-text-primary uppercase -mt-1">
                   Thinh
                 </span>
               </div>
@@ -114,13 +114,13 @@ export function Navbar() {
                     className="relative group"
                   >
                     <div
-                      className={`flex items-center px-1 mx-1 transition-all duration-200 ${
+                      className={`flex items-center px-1 2xl:px-2 mx-1 2xl:mx-2 transition-all duration-200 ${
                         isActive ? "" : "opacity-60 hover:opacity-100"
                       }`}
                     >
                       {/* Position indicator */}
                       <div
-                        className={`w-8 h-8 flex items-center justify-center font-black text-sm -skew-x-12 transition-colors ${
+                        className={`w-8 h-8 2xl:w-10 2xl:h-10 flex items-center justify-center font-black text-sm 2xl:text-base -skew-x-12 transition-colors ${
                           isActive
                             ? "bg-highlight text-primary"
                             : "bg-text-secondary/20 text-text-secondary group-hover:bg-accent group-hover:text-primary"
@@ -131,11 +131,11 @@ export function Navbar() {
 
                       {/* Label */}
                       <div
-                        className={`ml-2 pr-3 border-r border-text-secondary/30 last:border-r-0 ${
+                        className={`ml-2 2xl:ml-3 pr-3 2xl:pr-4 border-r border-text-secondary/30 last:border-r-0 ${
                           isActive ? "text-text-primary" : "text-text-secondary"
                         }`}
                       >
-                        <span className="text-xs font-bold uppercase tracking-wide">
+                        <span className="text-xs 2xl:text-sm font-bold uppercase tracking-wide">
                           {link.name}
                         </span>
                       </div>
@@ -145,7 +145,7 @@ export function Navbar() {
                     {isActive && (
                       <motion.div
                         layoutId="activeLED"
-                        className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-highlight shadow-[0_0_8px_2px_rgba(252,209,22,0.6)]"
+                        className="absolute -bottom-3 2xl:-bottom-4 left-1/2 -translate-x-1/2 w-2 h-2 2xl:w-2.5 2xl:h-2.5 rounded-full bg-highlight shadow-[0_0_8px_2px_rgba(252,209,22,0.6)]"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
@@ -185,13 +185,13 @@ export function Navbar() {
             scrolled ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="h-0.5 flex-1 bg-accent" />
-          <div className="h-0.5 w-32 bg-highlight -skew-x-12" />
-          <div className="h-0.5 flex-1 bg-accent" />
+          <div className="h-0.5 2xl:h-[3px] flex-1 bg-accent" />
+          <div className="h-0.5 2xl:h-[3px] w-32 2xl:w-40 bg-highlight -skew-x-12" />
+          <div className="h-0.5 2xl:h-[3px] flex-1 bg-accent" />
         </div>
       </motion.nav>
 
-      {/* Mobile side menu */}
+      {/* Mobile side menu - no 2xl changes needed as it's only for mobile */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
