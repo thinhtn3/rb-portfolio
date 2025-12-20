@@ -2,7 +2,7 @@ import finvisorImage from "@/assets/finVisor_demo.png";
 import loopaiImage from "@/assets/loop_demo.png";
 import rateMyCalendarImage from "@/assets/ratemycalendar_demo.png";
 import munchImage from "@/assets/munch_demo.png";
-import lePlayImage from "@/assets/leplay_demo.png";
+import lePlayImage from "@/assets/Leplay_demo.png";
 import spotiEventImage from "@/assets/spotievent_demo.png";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
 
