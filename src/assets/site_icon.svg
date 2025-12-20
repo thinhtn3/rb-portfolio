@@ -1,0 +1,40 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transparent canvas; red slanted box (parallelogram) -->
+  <polygon
+    points="64,72 480,72 448,440 32,440"
+    fill="#B11226"
+  />
+
+  <!-- T stem / speed slash -->
+  <polygon
+    points="
+      165,110
+      235,110
+      415,400
+      345,400
+    "
+    fill="#EDEFF3"
+  />
+
+  <!-- T crossbar (wider + flatter, Titillium-like) -->
+  <polygon
+    points="
+      95,110
+      305,110
+      285,155
+      115,155
+    "
+    fill="#EDEFF3"
+  />
+
+  <!-- N implied diagonal (cut uses box color) -->
+  <polygon
+    points="
+      265,215
+      305,215
+      355,295
+      315,295
+    "
+    fill="#B11226"
+  />
+</svg>

@@ -28,7 +28,7 @@ const contactMethods = [
 
 export function Contact() {
   return (
-    <section className="bg-black py-8 px-8">
+    <section className="bg-black py-8 px-8 min-h-screen">
       <SectionDivider />
       {/* Section Header */}
       <motion.div

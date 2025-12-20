@@ -10,7 +10,7 @@ const timeline = [
   {
     month: "April",
     year: "2025",
-    title: "Software Engineering Student",
+    title: "B.S. in Software Engineering",
     organization: "UC Irvine",
     description: "Pursuing a Bachelor's degree in Software Engineering",
     current: true,
@@ -61,7 +61,7 @@ export function About() {
         className="mb-16"
       >
         <h2 className="text-4xl font-bold text-text-primary uppercase tracking-wider">
-          <span className="text-accent">//</span> About Me
+          <span className="text-accent">//</span> About
         </h2>
       </motion.div>
       <div className="max-w-7xl mx-auto">
@@ -81,7 +81,7 @@ export function About() {
               </div>
 
               <h3 className="text-2xl font-bold text-text-primary mb-4 uppercase">
-                About <span className="text-highlight">Me</span>
+                About <span className="text-">Me</span>
               </h3>
 
               <p className="text-text-secondary mb-4 leading-relaxed">

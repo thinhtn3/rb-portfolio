@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import siteLogo from "@/assets/site_icon.svg";
 
 const navLinks = [
   { name: "Home", href: "#hero", pos: "P1" },
@@ -88,10 +89,8 @@ export function Navbar() {
               className="flex items-center"
             >
               {/* Driver number style */}
-              <div className="bg-accent px-3 py-1 -skew-x-12">
-                <span className="text-2xl font-black text-primary skew-x-12 inline-block">
-                  01
-                </span>
+              <div className="px-2 py-1 -skew-x-12">
+                <img src={siteLogo} alt="Site Logo" className="w-12 h-12" />
               </div>
               <div className="ml-3 border-l-2 border-highlight pl-3">
                 <span className="text-xs text-text-secondary uppercase tracking-widest">
