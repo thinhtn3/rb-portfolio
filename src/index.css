@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-heading: "Titillium Web", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-primary: #060C1F;
+  --color-secondary: #0A1A3F;
+  --color-accent: #E10600;
+  --color-highlight: #FCD116;
+
+  --color-text-primary: #EDEFF3;
+  --color-text-secondary: #888888;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+body {
+  font-family: var(--font-heading);
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.filter-primary {
+  filter: brightness(0) saturate(100%) invert(4%) sepia(15%) saturate(4500%) hue-rotate(200deg) brightness(95%) contrast(105%);
+}
+
+.group:hover .filter-primary {
+  filter: brightness(0) saturate(100%) invert(79%) sepia(57%) saturate(1000%) hue-rotate(5deg) brightness(103%) contrast(104%);
+}
+
+@keyframes speedLine {
+  0% { transform: translateX(0); opacity: 1; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.9; }
+  100% { transform: translateX(calc(100vw + 200px)); opacity: 0; }
+}
+
