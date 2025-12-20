@@ -53,7 +53,7 @@ const projects = [
     description: "Capture, replay and share highlights from your favorite NBA games",
     tags: ["Python", "Flask", "pytesseract", "React", "shadcn/ui", "TailwindCSS"],
     image: lePlayImage,
-    github: "https://github.com/thinhtn3/leplay",
+    github: "https://github.com/kYpranite/LePlay",
     devpost: "https://devpost.com/software/leplay",
   },
   {
