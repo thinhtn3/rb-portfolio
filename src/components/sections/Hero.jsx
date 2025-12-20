@@ -29,12 +29,12 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col lg:flex-row w-full min-h-screen justify-center items-center gap-10 lg:gap-0 px-6 py-12 lg:px-0 lg:py-0">
-        <div className="w-full lg:w-1/2 2xl:w-1/2 text-center lg:text-left">
+      <div className="flex flex-col lg:flex-row w-full min-h-screen justify-center items-center gap-10 lg:gap-0 2xl:gap-16 px-6 py-12 lg:px-0 lg:py-0 2xl:px-12">
+        <div className="w-full lg:w-1/2 2xl:w-5/12 text-center lg:text-left">
           {/* Hyper Text Component */}
-          <div className="flex flex-wrap gap-x-2 font-extrabold justify-center lg:justify-start">
+          <div className="flex flex-wrap gap-x-2 2xl:gap-x-4 font-extrabold justify-center lg:justify-start">
             <HyperText
-              className="text-text-primary text-4xl sm:text-5xl lg:text-5xl 2xl:text-6xl"
+              className="text-text-primary text-4xl sm:text-5xl lg:text-5xl 2xl:text-7xl"
               duration={1500}
               animateOnHover={false}
             >
@@ -43,7 +43,7 @@ export function Hero() {
             <HyperText
               duration={1500}
               animateOnHover={false}
-              className="text-accent text-4xl sm:text-5xl lg:text-5xl 2xl:text-6xl"
+              className="text-accent text-4xl sm:text-5xl lg:text-5xl 2xl:text-7xl"
             >
               Nguyen
             </HyperText>
@@ -51,7 +51,7 @@ export function Hero() {
           {/* Subtitle */}
           <TextAnimate
             animation="slideLeft"
-            className="text-base sm:text-lg lg:text-lg 2xl:text-xl text-gray-500 w-full lg:w-2/3 mx-auto lg:mx-0"
+            className="text-base sm:text-lg lg:text-lg 2xl:text-2xl text-gray-500 w-full lg:w-2/3 2xl:w-3/4 mx-auto lg:mx-0 2xl:mt-4"
             duration={0.5}
             startOnView={false}
           >
@@ -59,11 +59,13 @@ export function Hero() {
             Specializing in backend development.
           </TextAnimate>
           {/* Hyperlinks */}
-          <Hyperlinks />
+          <div className="2xl:mt-8">
+            <Hyperlinks />
+          </div>
         </div>
 
         {/* Profile Card - hidden on small screens */}
-        <div className="hidden md:block">
+        <div className="hidden md:block 2xl:scale-110 2xl:origin-center">
           <ProfileCard />
         </div>
       </div>

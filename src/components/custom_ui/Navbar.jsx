@@ -94,7 +94,7 @@ export function Navbar() {
               </div>
               <div className="ml-3 border-l-2 border-highlight pl-3">
                 <span className="text-xs text-text-secondary uppercase tracking-widest">
-                  NGU
+                  NGUYEN
                 </span>
                 <span className="block text-sm font-bold text-text-primary uppercase -mt-1">
                   Thinh

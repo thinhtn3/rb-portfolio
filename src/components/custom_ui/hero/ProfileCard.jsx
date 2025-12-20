@@ -18,9 +18,9 @@ export function ProfileCard({
     initial={{ opacity: 0, }}
     animate={{ opacity: 1 }}
     transition={{ duration: 2 }}
-    className="relative w-[320px] h-[440px] bg-white rounded-lg overflow-hidden shadow-xl">
+    className="relative w-[320px] h-[440px] 2xl:w-[400px] 2xl:h-[550px] bg-white rounded-lg overflow-hidden shadow-xl">
       {/* Top info section */}
-      <div className="absolute top-4 left-14 right-4 flex justify-between text-xs z-10">
+      <div className="absolute top-4 2xl:top-5 left-14 2xl:left-16 right-4 2xl:right-5 flex justify-between text-xs 2xl:text-sm z-10">
         <div className="text-gray-800">
           <p className="font-bold">{name}</p>
           <p className="text-gray-500">{location}</p>
@@ -33,7 +33,7 @@ export function ProfileCard({
 
       {/* Vertical name on left */}
       <div
-        className="absolute left-6 top-2/5 -translate-y-1/2 text-6xl font-bold italic"
+        className="absolute left-6 2xl:left-7 top-2/5 -translate-y-1/2 text-6xl 2xl:text-7xl font-bold italic"
         style={{
           writingMode: "vertical-rl",
           textOrientation: "mixed",
@@ -45,7 +45,7 @@ export function ProfileCard({
       </div>
 
       {/* Photo container */}
-      <div className="absolute top-16 left-12 right-4 bottom-24 overflow-hidden">
+      <div className="absolute top-16 2xl:top-20 left-12 2xl:left-14 right-4 2xl:right-5 bottom-24 2xl:bottom-28 overflow-hidden">
         <img
           src={imageSrc}
           alt={name}
@@ -55,7 +55,7 @@ export function ProfileCard({
 
       {/* Large outlined number */}
       <div
-        className="absolute -bottom-4 -right-2 text-[180px] font-black leading-none z-20 pointer-events-none"
+        className="absolute -bottom-4 2xl:-bottom-6 -right-2 2xl:-right-3 text-[180px] 2xl:text-[220px] font-black leading-none z-20 pointer-events-none"
         style={{
           WebkitTextStroke: `3px ${accentColor}`,
           WebkitTextFillColor: "transparent",
@@ -66,15 +66,15 @@ export function ProfileCard({
       </div>
 
       {/* Year */}
-      <div className="absolute bottom-4 left-14">
+      <div className="absolute bottom-4 2xl:bottom-5 left-14 2xl:left-16">
         <p
-          className="left-14 text-xl font-bold z-10 italic"
+          className="text-xl 2xl:text-2xl font-bold z-10 italic"
           style={{ color: "#1a1a1a" }}
         >
           {university}
         </p>
         <p 
-        className="text-xl font-bold z-10 italic" 
+        className="text-xl 2xl:text-2xl font-bold z-10 italic" 
         style={{ color: accentColor }}>
           {year}
         </p>
