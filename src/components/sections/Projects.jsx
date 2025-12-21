@@ -25,7 +25,7 @@ const projects = [
     image: finvisorImage,
     github: "https://github.com/thinhtn3/finVisor",
     devpost: "https://devpost.com/software/finvisor-p30hcd",
-    winner: "1st Place",
+    winner: "1st Place @ Claude Builder Club 2025",
   },
   {
     title: "LoopAI",
@@ -41,7 +41,7 @@ const projects = [
     image: rateMyCalendarImage,
     github: "https://github.com/winstonjgiang/RateMyCalendar",
     devpost: "https://devpost.com/software/ratemycalendar",
-    winner: "3rd Place",
+    winner: "3rd Place @ AWS Cloud Hack 2025",
   },
   {
     title: "Munch",
