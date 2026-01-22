@@ -6,7 +6,7 @@ export function ProfileCard({
   firstName = "NGU",
   number = "1",
   location = "Irvine, CA",
-  title = "2x Hackathon Winner",
+  title = "4x Hackathon Winner",
   subtitle = "Backend Developer",
   university = "UC Irvine",
   year = "2028",

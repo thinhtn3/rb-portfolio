@@ -3,6 +3,7 @@ import { TechStack } from "@/components/custom_ui/hero/TechStack.jsx";
 import ucIrvineLogo from "@/assets/uci_icon.jpg";
 import uberLogo from "@/assets/uber_icon.png";
 import claudeLogo from "@/assets/cbc_icon.jpeg";
+import cruzhacksLogo from "@/assets/CruzHacks.png";
 import aiuciLogo from "@/assets/aiuci_icon.jpeg";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
 
@@ -28,6 +29,18 @@ const timeline = [
 ];
 
 const achievements = [
+  {
+    title: "1st Overall Best Use of Viam",
+    event: "CruzHacks",
+    year: "January 2026",
+    logo: cruzhacksLogo,
+  },
+  {
+    title: "Best Hardware Hack (3rd Place)",
+    event: "CruzHacks",
+    year: "January 2026",
+    logo: cruzhacksLogo,
+  },
   {
     title: "1st Place Overall",
     event: "Claude Builder Club",

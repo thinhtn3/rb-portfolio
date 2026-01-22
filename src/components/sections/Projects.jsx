@@ -4,11 +4,32 @@ import rateMyCalendarImage from "@/assets/ratemycalendar_demo.png";
 import munchImage from "@/assets/munch_demo.png";
 import lePlayImage from "@/assets/Leplay_demo.png";
 import spotiEventImage from "@/assets/spotievent_demo.png";
+import makerSafeImage from "@/assets/makersafe.png";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
 
 import { motion } from "motion/react";
 
 const projects = [
+  {
+    title: "MakerSafe",
+    description:
+      "An intelligent safety monitoring platform using computer vision to ensure makerspace safety compliance in real-time.",
+    tags: [
+      "Python",
+      "Flask",
+      "React",
+      "TailwindCSS",
+      "shadcn/ui",
+      "Framer Motion",
+      "PostgreSQL",
+      "WebSockets",
+      "Raspberry Pi",
+    ],
+    image: makerSafeImage,
+    github: "https://github.com/justinsiek/Maker-Safe", 
+    devpost: "https://devpost.com/software/makersafe",
+    winner: ["1st Overall Best Use of Viam @ CruzHacks 2026", "Best Hardware Hack (3rd Place)"],
+  },
   {
     title: "finVisor",
     description:
@@ -28,13 +49,6 @@ const projects = [
     winner: "1st Place @ Claude Builder Club 2025",
   },
   {
-    title: "LoopAI",
-    description: "Your personal AI technical interview trainer",
-    tags: ["JavaScript", "Node.js", "React", "Supabase", "LangChain", "shadcn/ui"],
-    image: loopaiImage,
-    github: "https://github.com/thinhtn3/loopai",
-  },
-  {
     title: "RateMyCalendar",
     description: "A dashboard for analyzing and visualizing calendar data",
     tags: ["JavaScript", "Node.js", "AWS", "DynamoDB", "Bedrock", "React", "Chakra UI"],
@@ -42,6 +56,13 @@ const projects = [
     github: "https://github.com/winstonjgiang/RateMyCalendar",
     devpost: "https://devpost.com/software/ratemycalendar",
     winner: "3rd Place @ AWS Cloud Hack 2025",
+  },
+  {
+    title: "LoopAI",
+    description: "Your personal AI technical interview trainer",
+    tags: ["JavaScript", "GoLang", "React", "Supabase", "LangChain", "shadcn/ui"],
+    image: loopaiImage,
+    github: "https://github.com/thinhtn3/loopai",
   },
   {
     title: "Munch",
@@ -94,17 +115,31 @@ export function Projects() {
                 ${project.winner ? "ring-2 ring-highlight/50" : ""}
               `}
             >
-              {/* Diagonal accent stripe */}
-              <div className="absolute top-0 right-0 w-24 2xl:w-28 h-24 2xl:h-28 overflow-hidden z-10">
-                <div className="absolute top-4 2xl:top-5 -right-8 2xl:-right-10 w-32 2xl:w-40 h-6 2xl:h-7 bg-accent rotate-45 opacity-80" />
-              </div>
+              {/* Diagonal accent stripe - hidden when there are winner badges */}
+              {!project.winner && (
+                <div className="absolute top-0 right-0 w-24 2xl:w-28 h-24 2xl:h-28 overflow-hidden z-10">
+                  <div className="absolute top-4 2xl:top-5 -right-8 2xl:-right-10 w-32 2xl:w-40 h-6 2xl:h-7 bg-accent rotate-45 opacity-80" />
+                </div>
+              )}
 
-              {/* Winner badge */}
+              {/* Winner badge(s) - positioned at top right, stacked vertically */}
               {project.winner && (
-                <div className="absolute top-3 2xl:top-4 right-3 2xl:right-4 z-20 flex items-center gap-1.5 bg-highlight px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-sm -skew-x-12">
-                  <span className="text-xs 2xl:text-sm font-black text-primary uppercase tracking-wide skew-x-12">
-                    {project.winner}
-                  </span>
+                <div className="absolute top-3 2xl:top-4 right-3 2xl:right-4 z-20 flex flex-col items-end gap-1.5 2xl:gap-2">
+                  {Array.isArray(project.winner) ? (
+                    project.winner.map((award, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5 bg-highlight px-3 2xl:px-4 py-1 2xl:py-1.5 rounded-sm -skew-x-12 shadow-lg">
+                        <span className="text-[10px] 2xl:text-xs font-black text-primary uppercase tracking-wide skew-x-12 whitespace-nowrap">
+                          {award}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="flex items-center gap-1.5 bg-highlight px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-sm -skew-x-12 shadow-lg">
+                      <span className="text-xs 2xl:text-sm font-black text-primary uppercase tracking-wide skew-x-12">
+                        {project.winner}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
 
