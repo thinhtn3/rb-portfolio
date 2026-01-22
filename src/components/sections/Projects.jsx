@@ -29,6 +29,7 @@ const projects = [
     github: "https://github.com/justinsiek/Maker-Safe", 
     devpost: "https://devpost.com/software/makersafe",
     winner: ["1st Overall Best Use of Viam @ CruzHacks 2026", "Best Hardware Hack (3rd Place)"],
+    featured: true,
   },
   {
     title: "finVisor",
@@ -79,14 +80,14 @@ const projects = [
     github: "https://github.com/kYpranite/LePlay",
     devpost: "https://devpost.com/software/leplay",
   },
-  {
-    title: "SpotiEvent",
-    description: "Capture, replay and share highlights from your favorite NBA games",
-    tags: ["JavaScript", "Node.js", "React", "Chakra UI"],
-    image: spotiEventImage,
-    github: "https://github.com/thinhtn3/spotievent",
-    devpost: "https://devpost.com/software/spotievent",
-  },
+  // {
+  //   title: "SpotiEvent",
+  //   description: "Capture, replay and share highlights from your favorite NBA games",
+  //   tags: ["JavaScript", "Node.js", "React", "Chakra UI"],
+  //   image: spotiEventImage,
+  //   github: "https://github.com/thinhtn3/spotievent",
+  //   devpost: "https://devpost.com/software/spotievent",
+  // },
 ];
 
 export function Projects() {
