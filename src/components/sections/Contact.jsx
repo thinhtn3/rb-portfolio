@@ -83,7 +83,7 @@ export function Contact() {
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              className="block bg-primary p-5 2xl:p-7 rounded-sm relative overflow-hidden group hover:border-highlight border border-transparent transition-all cursor-pointer"
+              className="block bg-primary p-5 2xl:p-7 rounded-sm relative overflow-hidden group hover:border-white/20 border border-white/5 transition-all cursor-pointer"
             >
               {/* Icon */}
               <div className="absolute top-4 right-4 2xl:top-6 2xl:right-6 text-3xl opacity-50 group-hover:opacity-100 transition-opacity">
@@ -93,11 +93,11 @@ export function Contact() {
               <span className="text-xs 2xl:text-sm text-accent font-bold uppercase tracking-wide">
                 {method.label}
               </span>
-              <p className="text-text-primary font-bold text-lg 2xl:text-xl mt-1 2xl:mt-2 group-hover:text-highlight transition-colors">
+              <p className="text-text-primary font-bold text-lg 2xl:text-xl mt-1 2xl:mt-2 transition-colors">
                 {method.value}
               </p>
 
-              <span className="absolute right-4 bottom-4 2xl:right-6 2xl:bottom-6 2xl:text-lg text-text-secondary group-hover:text-highlight group-hover:translate-x-1 transition-all">
+              <span className="absolute right-4 bottom-4 2xl:right-6 2xl:bottom-6 2xl:text-lg text-text-secondary group-hover:text-text-primary group-hover:translate-x-1 transition-all">
                 →
               </span>
 
@@ -140,7 +140,7 @@ export function Contact() {
             href="https://www.linkedin.com/in/thinhttnguyen/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-highlight hover:underline"
+            className="text-accent hover:underline"
           >
             LinkedIn
           </a>

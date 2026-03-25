@@ -152,7 +152,7 @@ export function Navbar() {
               <div className="px-2 -skew-x-12">
                 <img src={siteLogo} alt="Site Logo" className="w-12 h-12 2xl:w-14 2xl:h-14" />
               </div>
-              <div className="ml-3 2xl:ml-4 border-l-2 border-highlight pl-3 2xl:pl-4">
+              <div className="ml-3 2xl:ml-4 border-l-2 border-accent/60 pl-3 2xl:pl-4">
                 <span className="text-xs 2xl:text-sm text-text-secondary uppercase tracking-widest">
                   NGUYEN
                 </span>
@@ -337,7 +337,7 @@ export function Navbar() {
                       <span className="text-xs text-text-secondary uppercase">
                         Thinh Nguyen
                       </span>
-                      <p className="text-xs text-highlight font-bold uppercase">
+                      <p className="text-xs text-accent font-bold uppercase">
                         Software Engineer
                       </p>
                     </div>

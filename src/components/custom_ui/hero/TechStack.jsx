@@ -41,11 +41,11 @@ function TechItem({ item, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       viewport={{ once: true }}
-      className="group relative flex flex-col items-center p-3 rounded-sm bg-secondary/50 hover:bg-secondary border border-transparent hover:border-highlight/30 transition-all cursor-pointer"
+      className="group relative flex flex-col items-center p-3 rounded-sm bg-secondary/50 hover:bg-secondary border border-white/5 hover:border-white/15 transition-all cursor-pointer"
     >
       <item.Icon
         size={28}
-        className="text-text-secondary group-hover:text-highlight transition-colors duration-300"
+        className="text-text-secondary group-hover:text-text-primary transition-colors duration-300"
         style={{ color: undefined }}
       />
       <span className="mt-2 text-[10px] text-text-secondary group-hover:text-text-primary transition-colors uppercase tracking-wide">

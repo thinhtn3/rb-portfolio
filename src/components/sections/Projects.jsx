@@ -101,7 +101,7 @@ export function Projects() {
         },
       });
 
-      // ── Cards: take grid positions like cars on the starting grid ──
+      // ── Cards: stagger up once section is on screen ──
       const cards = cardsRef.current.filter(Boolean);
       gsap.fromTo(
         cards,
@@ -121,7 +121,7 @@ export function Projects() {
         }
       );
 
-      // ── Winner badges: flash pulse after cards arrive ──
+      // ── Winner badges: flash in after cards ──
       const winnerBadges = sectionRef.current.querySelectorAll(".winner-badge");
       if (winnerBadges.length) {
         gsap.fromTo(
@@ -167,7 +167,7 @@ export function Projects() {
           ease: "power2.out",
         });
         if (spotlight) {
-          spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(252,209,22,0.07) 0%, transparent 65%)`;
+          spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.05) 0%, transparent 65%)`;
           spotlight.style.opacity = "1";
         }
       };
@@ -211,10 +211,11 @@ export function Projects() {
             key={project.title}
             ref={(el) => { cardsRef.current[index] = el; }}
             className={`
-              group relative rounded-lg bg-secondary
-              border border-white/5
-              transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50
-              hover:border-white/10
+              group relative rounded-lg
+              border transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50
+              ${project.winner
+                ? "bg-secondary border-accent/20 hover:border-accent/40"
+                : "bg-secondary border-white/5 hover:border-white/15"}
               ${project.featured ? "md:col-span-2 md:row-span-2" : ""}
             `}
             style={{ willChange: "transform" }}
@@ -314,7 +315,7 @@ export function Projects() {
             </div>
 
             {/* Hover glow border */}
-            <div className="absolute inset-0 z-20 rounded-lg border border-highlight/0 group-hover:border-highlight/20 transition-colors duration-300 pointer-events-none" />
+            <div className="absolute inset-0 z-20 rounded-lg border border-white/0 group-hover:border-white/10 transition-colors duration-300 pointer-events-none" />
           </div>
         ))}
       </div>

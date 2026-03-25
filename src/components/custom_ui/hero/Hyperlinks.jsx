@@ -38,7 +38,10 @@ export function Hyperlinks() {
           transition={{ duration: 0.4, delay: index * 0.1 }}
           className="relative w-full sm:w-auto after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-highlight after:transition-transform after:duration-300 hover:after:scale-x-100"
         >
-          <RippleButton rippleColor="#FCD116" className="bg-accent w-full sm:w-30 2xl:w-36 h-10 2xl:h-12 rounded-sm group">
+          <RippleButton
+            rippleColor="#FCD116"
+            className="bg-accent w-full sm:w-30 2xl:w-36 h-10 2xl:h-12 rounded-sm group"
+          >
             <div className="flex flex-row items-center justify-center gap-2 2xl:gap-3">
               <img
                 src={hyperlink.icon}

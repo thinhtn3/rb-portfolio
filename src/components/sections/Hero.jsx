@@ -96,7 +96,9 @@ export function Hero() {
                 >
                   <span className="text-accent group-hover:text-highlight transition-colors flex items-center justify-center gap-2 text-xs 2xl:text-sm">
                     {button.name}
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    <span className="group-hover:translate-x-1 transition-transform">
+                      →
+                    </span>
                   </span>
                 </RippleButton>
               </motion.a>
@@ -105,7 +107,10 @@ export function Hero() {
         </div>
 
         {/* Profile Card - hidden on small screens */}
-        <div className="hidden md:block 2xl:scale-110 2xl:origin-center" style={{ perspective: "1000px" }}>
+        <div
+          className="hidden md:block 2xl:scale-110 2xl:origin-center"
+          style={{ perspective: "1000px" }}
+        >
           <ProfileCard />
         </div>
       </div>

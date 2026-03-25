@@ -371,7 +371,7 @@ export function About() {
                     ref={(el) => {
                       achievementCardsRef.current[index] = el;
                     }}
-                    className="group bg-secondary p-4 2xl:p-5 rounded-lg relative overflow-hidden border border-white/5 hover:border-highlight/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-highlight/5 transition-all duration-300"
+                    className="group bg-secondary p-4 2xl:p-5 rounded-lg relative overflow-hidden border border-white/5 hover:border-white/15 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 transition-all duration-300"
                   >
                     {/* Logo */}
                     <div className="flex items-start justify-between mb-3">
@@ -387,7 +387,7 @@ export function About() {
                       )}
                     </div>
 
-                    <h4 className="text-text-primary font-bold text-sm 2xl:text-base group-hover:text-highlight transition-colors duration-200 leading-snug">
+                    <h4 className="text-text-primary font-bold text-sm 2xl:text-base transition-colors duration-200 leading-snug">
                       {achievement.title}
                     </h4>
                     <p className="text-text-secondary text-xs 2xl:text-sm mt-1.5 font-medium">
