@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { motion } from "motion/react";
 import { RippleButton } from "@/components/ui/ripple-button";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
 import { SiGmail, SiLinkedin, SiGithub } from "react-icons/si";
@@ -28,9 +29,6 @@ const contactMethods = [
 export function Contact() {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
-  const contactCardsRef = useRef([]);
-  const ctaRef = useRef(null);
-  const footerNoteRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -46,62 +44,6 @@ export function Contact() {
           once: true,
         },
       });
-
-      // ── Contact cards: alternate left/right slide ──
-      contactCardsRef.current.forEach((card, i) => {
-        if (!card) return;
-        const fromX = i % 2 === 0 ? -70 : 70;
-        gsap.fromTo(
-          card,
-          { x: fromX, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 90%",
-              once: true,
-            },
-            delay: i * 0.08,
-          }
-        );
-      });
-
-      // ── CTA button: scale in with bounce ──
-      gsap.fromTo(
-        ctaRef.current,
-        { scale: 0.88, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.55,
-          ease: "back.out(1.6)",
-          scrollTrigger: {
-            trigger: ctaRef.current,
-            start: "top 92%",
-            once: true,
-          },
-        }
-      );
-
-      // ── Footer note: fade in ──
-      gsap.fromTo(
-        footerNoteRef.current,
-        { opacity: 0, y: 10 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: footerNoteRef.current,
-            start: "top 95%",
-            once: true,
-          },
-        }
-      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -128,12 +70,19 @@ export function Contact() {
 
         <div className="space-y-4 2xl:space-y-6">
           {contactMethods.map((method, index) => (
-            <a
+            <motion.a
               key={method.label}
               href={method.href}
               target={method.href.startsWith("http") ? "_blank" : undefined}
               rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              ref={(el) => { contactCardsRef.current[index] = el; }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="block bg-primary p-5 2xl:p-7 rounded-sm relative overflow-hidden group hover:border-highlight border border-transparent transition-all cursor-pointer"
             >
               {/* Icon */}
@@ -154,12 +103,18 @@ export function Contact() {
 
               {/* Bottom accent line */}
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-accent to-highlight scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-            </a>
+            </motion.a>
           ))}
         </div>
 
         {/* CTA Button */}
-        <div ref={ctaRef} className="mt-8 2xl:mt-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="mt-8 2xl:mt-10"
+        >
           <a href="mailto:thinhtn3@uci.edu">
             <RippleButton
               className="bg-accent w-full h-14 2xl:h-16 rounded-sm group text-lg 2xl:text-xl font-bold uppercase tracking-wide"
@@ -170,11 +125,14 @@ export function Contact() {
               </span>
             </RippleButton>
           </a>
-        </div>
+        </motion.div>
 
         {/* Footer note */}
-        <p
-          ref={footerNoteRef}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           className="text-text-secondary text-sm 2xl:text-base text-center mt-6 2xl:mt-8"
         >
           Or connect with me on{" "}
@@ -186,7 +144,7 @@ export function Contact() {
           >
             LinkedIn
           </a>
-        </p>
+        </motion.p>
       </div>
     </section>
   );

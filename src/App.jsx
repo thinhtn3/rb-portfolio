@@ -7,6 +7,7 @@ import { About } from "@/components/sections/About.jsx";
 import { Contact } from "@/components/sections/Contact.jsx";
 import { Navbar } from "@/components/custom_ui/Navbar.jsx";
 import { LaunchSequence } from "@/components/custom_ui/LaunchSequence.jsx";
+import { SpeedBackground } from "@/components/custom_ui/SpeedBackground.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <>
+      <SpeedBackground />
       {showLaunch && (
         <LaunchSequence onComplete={() => setShowLaunch(false)} />
       )}

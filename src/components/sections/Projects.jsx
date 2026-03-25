@@ -28,7 +28,7 @@ const projects = [
     github: "https://github.com/justinsiek/Maker-Safe",
     devpost: "https://devpost.com/software/makersafe",
     winner: ["1st Overall Best Use of Viam @ CruzHacks 2026", "Best Hardware Hack (3rd Place)"],
-    featured: true,
+    // featured: true,
   },
   {
     title: "finVisor",
@@ -147,6 +147,51 @@ export function Projects() {
     return () => ctx.revert();
   }, []);
 
+  // ── Hover: 3D tilt + spotlight per card ──
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean);
+    const cleanups = cards.map((card) => {
+      const spotlight = card.querySelector(".card-spotlight");
+
+      const onMouseMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        gsap.to(card, {
+          rotateY: ((x - cx) / cx) * 7,
+          rotateX: -((y - cy) / cy) * 5,
+          transformPerspective: 900,
+          duration: 0.25,
+          ease: "power2.out",
+        });
+        if (spotlight) {
+          spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(252,209,22,0.07) 0%, transparent 65%)`;
+          spotlight.style.opacity = "1";
+        }
+      };
+
+      const onMouseLeave = () => {
+        gsap.to(card, {
+          rotateY: 0,
+          rotateX: 0,
+          duration: 0.6,
+          ease: "power3.out",
+        });
+        if (spotlight) spotlight.style.opacity = "0";
+      };
+
+      card.addEventListener("mousemove", onMouseMove);
+      card.addEventListener("mouseleave", onMouseLeave);
+      return () => {
+        card.removeEventListener("mousemove", onMouseMove);
+        card.removeEventListener("mouseleave", onMouseLeave);
+      };
+    });
+    return () => cleanups.forEach((fn) => fn());
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -160,44 +205,43 @@ export function Projects() {
         </h2>
       </div>
 
-      {/* F1-style asymmetric grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-6 max-w-7xl 2xl:max-w-[1600px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 2xl:gap-7 max-w-7xl 2xl:max-w-[1600px] mx-auto">
         {projects.map((project, index) => (
           <div
             key={project.title}
             ref={(el) => { cardsRef.current[index] = el; }}
             className={`
-              group relative overflow-hidden rounded-sm bg-secondary
-              transition-transform duration-300 hover:-translate-y-1
+              group relative rounded-lg bg-secondary
+              border border-white/5
+              transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50
+              hover:border-white/10
               ${project.featured ? "md:col-span-2 md:row-span-2" : ""}
-              ${project.winner ? "ring-2 ring-highlight/50" : ""}
             `}
+            style={{ willChange: "transform" }}
           >
-            {/* Diagonal accent stripe */}
-            {!project.winner && (
-              <div className="absolute top-0 right-0 w-24 2xl:w-28 h-24 2xl:h-28 overflow-hidden z-10">
-                <div className="absolute top-4 2xl:top-5 -right-8 2xl:-right-10 w-32 2xl:w-40 h-6 2xl:h-7 bg-accent rotate-45 opacity-80" />
-              </div>
-            )}
-
+            {/* Mouse-tracking spotlight */}
+            <div
+              className="card-spotlight absolute inset-0 z-10 pointer-events-none transition-opacity duration-300"
+              style={{ opacity: 0 }}
+            />
             {/* Winner badges */}
             {project.winner && (
-              <div className="absolute top-3 2xl:top-4 right-3 2xl:right-4 z-20 flex flex-col items-end gap-1.5 2xl:gap-2">
+              <div className="absolute top-4 left-4 z-20 flex flex-col items-start gap-1.5 2xl:gap-2">
                 {Array.isArray(project.winner) ? (
                   project.winner.map((award, idx) => (
                     <div
                       key={idx}
-                      className="winner-badge flex items-center gap-1.5 bg-highlight px-3 2xl:px-4 py-1 2xl:py-1.5 rounded-sm -skew-x-12 shadow-lg"
+                      className="winner-badge flex items-center gap-1.5 bg-highlight/95 backdrop-blur-sm px-3 2xl:px-4 py-1 2xl:py-1.5 rounded-full shadow-lg shadow-highlight/20"
                     >
-                      <span className="text-[10px] 2xl:text-xs font-black text-primary uppercase tracking-wide skew-x-12 whitespace-nowrap">
-                        {award}
+                      <span className="text-[10px] 2xl:text-xs font-black text-primary uppercase tracking-wide whitespace-nowrap">
+                        🏆 {award}
                       </span>
                     </div>
                   ))
                 ) : (
-                  <div className="winner-badge flex items-center gap-1.5 bg-highlight px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-sm -skew-x-12 shadow-lg">
-                    <span className="text-xs 2xl:text-sm font-black text-primary uppercase tracking-wide skew-x-12">
-                      {project.winner}
+                  <div className="winner-badge flex items-center gap-1.5 bg-highlight/95 backdrop-blur-sm px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-full shadow-lg shadow-highlight/20">
+                    <span className="text-xs 2xl:text-sm font-black text-primary uppercase tracking-wide">
+                      🏆 {project.winner}
                     </span>
                   </div>
                 )}
@@ -205,30 +249,31 @@ export function Projects() {
             )}
 
             {/* Project image */}
-            <div className={`relative ${project.featured ? "h-80 2xl:h-96" : "h-64 2xl:h-80"}`}>
+            <div className={`relative overflow-hidden rounded-t-lg ${project.featured ? "h-80 2xl:h-96" : "h-52 2xl:h-64"}`}>
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-300"
+                className="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-500 scale-100 group-hover:scale-105"
+                style={{ transition: "opacity 0.5s, transform 0.6s" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/70 to-secondary/30" />
+              <div className="absolute inset-0 bg-linear-to-t from-secondary via-secondary/60 to-transparent" />
             </div>
 
             {/* Content */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 2xl:p-8">
-              <h3 className="text-xl 2xl:text-2xl font-bold text-text-primary mb-2 2xl:mb-3 group-hover:text-highlight transition-colors">
+            <div className="p-6 2xl:p-8">
+              <h3 className="text-xl 2xl:text-2xl font-bold text-text-primary mb-2 2xl:mb-3 group-hover:text-highlight transition-colors duration-200">
                 {project.title}
               </h3>
-              <p className="text-text-secondary text-sm 2xl:text-base mb-4 2xl:mb-5">
+              <p className="text-text-secondary text-sm 2xl:text-base mb-4 2xl:mb-5 leading-relaxed">
                 {project.description}
               </p>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2 2xl:gap-3 mb-4 2xl:mb-5">
+              <div className="flex flex-wrap gap-1.5 2xl:gap-2 mb-5 2xl:mb-6">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs 2xl:text-sm px-2 2xl:px-3 py-1 2xl:py-1.5 bg-primary text-text-primary rounded-sm border-l-2 border-accent"
+                    className="text-xs 2xl:text-sm px-2.5 2xl:px-3 py-0.5 2xl:py-1 bg-white/5 text-text-secondary rounded-full border border-white/10 hover:border-accent/50 hover:text-text-primary transition-colors duration-200"
                   >
                     {tag}
                   </span>
@@ -243,7 +288,7 @@ export function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 2xl:gap-2 px-3 2xl:px-4 py-1.5 2xl:py-2 bg-primary text-text-primary text-xs 2xl:text-sm font-bold uppercase rounded-sm border border-text-secondary/30 hover:border-highlight hover:text-highlight transition-colors"
+                      className="flex items-center gap-1.5 2xl:gap-2 px-4 2xl:px-5 py-2 2xl:py-2.5 bg-white/5 text-text-primary text-xs 2xl:text-sm font-semibold rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-highlight transition-all duration-200"
                     >
                       <svg className="w-4 h-4 2xl:w-5 2xl:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -256,7 +301,7 @@ export function Projects() {
                       href={project.devpost}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 2xl:gap-2 px-3 2xl:px-4 py-1.5 2xl:py-2 bg-primary text-text-primary text-xs 2xl:text-sm font-bold uppercase rounded-sm border border-text-secondary/30 hover:border-accent hover:text-accent transition-colors"
+                      className="flex items-center gap-1.5 2xl:gap-2 px-4 2xl:px-5 py-2 2xl:py-2.5 bg-white/5 text-text-primary text-xs 2xl:text-sm font-semibold rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-accent transition-all duration-200"
                     >
                       <svg className="w-4 h-4 2xl:w-5 2xl:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6.002 1.61L0 12.004L6.002 22.39h11.996L24 12.004L17.998 1.61H6.002zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31c0 4.436-3.21 6.302-6.456 6.302H7.595V5.694zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861c.009-2.569-1.096-3.853-3.767-3.853h-1.336z" />
@@ -268,8 +313,8 @@ export function Projects() {
               )}
             </div>
 
-            {/* Hover border effect */}
-            <div className="absolute inset-0 border-2 border-transparent group-hover:border-highlight/50 transition-colors duration-300 rounded-sm pointer-events-none" />
+            {/* Hover glow border */}
+            <div className="absolute inset-0 z-20 rounded-lg border border-highlight/0 group-hover:border-highlight/20 transition-colors duration-300 pointer-events-none" />
           </div>
         ))}
       </div>

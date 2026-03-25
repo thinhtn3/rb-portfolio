@@ -10,12 +10,21 @@ import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
 
 const timeline = [
   {
+    month: "June",
+    year: "2026",
+    title: "Incoming Software Engineering Intern",
+    organization: "Uber",
+    description: "Incoming Software Engineering Intern for Summer 2026.",
+    // current: true,
+    logo: uberLogo,
+  },
+  {
     month: "April",
     year: "2025",
     title: "B.S. in Software Engineering",
     organization: "UC Irvine",
     description: "Pursuing a Bachelor's degree in Software Engineering",
-    current: true,
+    current: false,
     logo: ucIrvineLogo,
   },
   {
@@ -221,11 +230,9 @@ export function About() {
           <div>
             {/* Bio Card */}
             <div ref={bioCardRef}>
-              <div className="bg-secondary p-8 2xl:p-10 rounded-sm relative overflow-hidden">
-                {/* Diagonal stripe */}
-                <div className="absolute top-0 right-0 w-32 2xl:w-40 h-32 2xl:h-40 overflow-hidden">
-                  <div className="absolute top-6 2xl:top-8 -right-10 2xl:-right-12 w-40 2xl:w-48 h-8 2xl:h-10 bg-accent rotate-45 opacity-80" />
-                </div>
+              <div className="bg-secondary p-8 2xl:p-10 rounded-lg relative overflow-hidden border border-white/5">
+                {/* Subtle top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-accent via-highlight to-transparent rounded-t-2xl" />
 
                 <h3 className="text-2xl 2xl:text-3xl font-bold text-text-primary mb-4 2xl:mb-6 uppercase">
                   About <span className="text-highlight">Me</span>
@@ -242,23 +249,23 @@ export function About() {
                 <p className="text-text-secondary mb-6 leading-relaxed"></p>
 
                 {/* Quick facts */}
-                <div className="border-t border-text-secondary/20 pt-4 2xl:pt-6 mt-4 2xl:mt-6">
+                <div className="border-t border-white/10 pt-5 2xl:pt-6 mt-2">
                   <div className="grid grid-cols-2 gap-4 2xl:gap-6 text-sm 2xl:text-base">
-                    <div>
-                      <span className="text-text-secondary">Location</span>
-                      <p className="text-text-primary font-bold">Irvine, CA</p>
+                    <div className="bg-white/3 rounded-xl p-3 2xl:p-4">
+                      <span className="text-text-secondary text-xs uppercase tracking-wider">Location</span>
+                      <p className="text-text-primary font-bold mt-1">Irvine, CA</p>
                     </div>
-                    <div>
-                      <span className="text-text-secondary">Education</span>
-                      <p className="text-text-primary font-bold">UC Irvine</p>
+                    <div className="bg-white/3 rounded-xl p-3 2xl:p-4">
+                      <span className="text-text-secondary text-xs uppercase tracking-wider">Education</span>
+                      <p className="text-text-primary font-bold mt-1">UC Irvine</p>
                     </div>
-                    <div>
-                      <span className="text-text-secondary">Focus</span>
-                      <p className="text-text-primary font-bold">Backend Dev</p>
+                    <div className="bg-white/3 rounded-xl p-3 2xl:p-4">
+                      <span className="text-text-secondary text-xs uppercase tracking-wider">Focus</span>
+                      <p className="text-text-primary font-bold mt-1">Backend Dev</p>
                     </div>
-                    <div>
-                      <span className="text-text-secondary">Status</span>
-                      <p className="text-highlight font-bold">Open to Work</p>
+                    <div className="bg-highlight/10 rounded-xl p-3 2xl:p-4 border border-highlight/20">
+                      <span className="text-highlight/70 text-xs uppercase tracking-wider">Status</span>
+                      <p className="text-highlight font-bold mt-1">Open to Work</p>
                     </div>
                   </div>
                 </div>
@@ -266,11 +273,11 @@ export function About() {
             </div>
 
             {/* TechStack */}
-            <div ref={techStackRef} className="mt-8 2xl:mt-10">
+            <div ref={techStackRef} className="mt-6 2xl:mt-8">
               <h3 className="text-lg 2xl:text-xl font-bold text-text-primary mb-4 2xl:mb-6 uppercase flex items-center gap-2">
                 <span className="text-accent">//</span> Current Tech Stack
               </h3>
-              <div className="bg-secondary p-6 2xl:p-8 rounded-sm border border-text-secondary/20">
+              <div className="bg-secondary p-6 2xl:p-8 rounded-lg border border-white/5">
                 <TechStack />
               </div>
             </div>
@@ -286,29 +293,29 @@ export function About() {
               {/* Timeline line — drawn by GSAP scrub */}
               <div
                 ref={timelineLineRef}
-                className="absolute left-[23px] 2xl:left-[28px] top-0 bottom-0 w-0.5 bg-text-secondary/20"
+                className="absolute left-[23px] 2xl:left-[28px] top-0 bottom-0 w-0.5 bg-white/10"
               />
 
-              <div className="space-y-6 2xl:space-y-8">
+              <div className="space-y-4 2xl:space-y-6">
                 {timeline.map((item, index) => (
                   <div
                     key={index}
                     ref={(el) => {
                       timelineItemsRef.current[index] = el;
                     }}
-                    className="relative flex gap-6 2xl:gap-8"
+                    className="relative flex gap-5 2xl:gap-7"
                   >
                     {/* Timeline dot */}
                     <div
                       className={`
-                        relative z-10 w-12 h-14 2xl:w-14 2xl:h-16 rounded-sm flex flex-col items-center justify-center font-bold text-xs 2xl:text-sm
-                        ${item.current ? "bg-accent text-white" : "bg-secondary text-text-primary"}
+                        relative z-10 w-12 h-14 2xl:w-14 2xl:h-16 rounded-xl flex flex-col items-center justify-center font-bold text-xs 2xl:text-sm shrink-0
+                        ${item.current ? "bg-accent text-white shadow-lg shadow-accent/30" : "bg-secondary text-text-primary border border-white/10"}
                       `}
                     >
-                      <span className="text-[10px] 2xl:text-xs uppercase">
+                      <span className="text-[10px] 2xl:text-xs uppercase opacity-80">
                         {item.month}
                       </span>
-                      <span className="text-sm 2xl:text-base">
+                      <span className="text-sm 2xl:text-base font-black">
                         {item.year.slice(2)}
                       </span>
                     </div>
@@ -316,31 +323,30 @@ export function About() {
                     {/* Content card */}
                     <div
                       className={`
-                        flex-1 bg-secondary p-5 2xl:p-6 rounded-sm relative overflow-hidden
-                        border-l-4 ${item.current ? "border-highlight" : "border-accent"}
+                        flex-1 bg-secondary p-5 2xl:p-6 rounded-lg relative overflow-hidden
+                        border border-white/5
+                        ${item.current ? "border-l-2 border-l-highlight" : "border-l-2 border-l-accent/50"}
                       `}
                     >
                       {item.current && (
-                        <span className="absolute top-2 right-2 text-xs 2xl:text-sm bg-highlight text-primary px-2 py-0.5 rounded-sm font-bold uppercase">
+                        <span className="absolute top-3 right-3 text-[10px] 2xl:text-xs bg-highlight/15 text-highlight px-2.5 py-1 rounded-full font-bold uppercase border border-highlight/30">
                           Current
                         </span>
                       )}
-                      <h4 className="text-text-primary font-bold text-lg 2xl:text-xl flex items-center gap-2 2xl:gap-3">
+                      <h4 className="text-text-primary font-bold text-base 2xl:text-lg flex items-center gap-2.5 2xl:gap-3 pr-16">
                         {item.logo && (
                           <img
                             src={item.logo}
                             alt={item.organization}
-                            className="w-10 h-10 2xl:w-12 2xl:h-12 rounded-sm object-cover"
+                            className="w-8 h-8 2xl:w-10 2xl:h-10 rounded-lg object-cover"
                           />
                         )}
                         {item.organization}
                       </h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <p className="text-accent text-sm 2xl:text-base font-medium">
-                          {item.title}
-                        </p>
-                      </div>
-                      <p className="text-text-secondary text-sm 2xl:text-base mt-2">
+                      <p className="text-accent text-sm 2xl:text-base font-medium mt-1.5">
+                        {item.title}
+                      </p>
+                      <p className="text-text-secondary text-sm 2xl:text-base mt-2 leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -350,7 +356,7 @@ export function About() {
             </div>
 
             {/* Achievements */}
-            <div className="mt-12 2xl:mt-16">
+            <div className="mt-10 2xl:mt-14">
               <h3 className="text-lg 2xl:text-xl font-bold text-text-primary mb-4 2xl:mb-6 uppercase flex items-center gap-2">
                 <span className="text-accent">//</span> Achievements
               </h3>
@@ -365,35 +371,31 @@ export function About() {
                     ref={(el) => {
                       achievementCardsRef.current[index] = el;
                     }}
-                    className="bg-secondary p-4 2xl:p-5 rounded-sm relative overflow-hidden group hover:border-highlight border border-transparent transition-colors"
+                    className="group bg-secondary p-4 2xl:p-5 rounded-lg relative overflow-hidden border border-white/5 hover:border-highlight/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-highlight/5 transition-all duration-300"
                   >
                     {/* Logo */}
-                    <div className="absolute top-2 2xl:top-3 right-2 2xl:right-3">
-                      {achievement.logo ? (
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-xs 2xl:text-sm text-accent font-semibold bg-accent/10 px-2 py-0.5 rounded-full">
+                        {achievement.year}
+                      </span>
+                      {achievement.logo && (
                         <img
                           src={achievement.logo}
                           alt={achievement.event}
-                          className="w-8 h-8 2xl:w-10 2xl:h-10 rounded-sm object-cover"
+                          className="w-8 h-8 2xl:w-9 2xl:h-9 rounded-lg object-cover"
                         />
-                      ) : (
-                        <span className="text-2xl 2xl:text-3xl">
-                          {achievement.icon}
-                        </span>
                       )}
                     </div>
 
-                    <span className="text-xs 2xl:text-sm text-accent font-bold">
-                      {achievement.year}
-                    </span>
-                    <h4 className="text-text-primary font-bold text-sm 2xl:text-base mt-1 group-hover:text-highlight transition-colors">
+                    <h4 className="text-text-primary font-bold text-sm 2xl:text-base group-hover:text-highlight transition-colors duration-200 leading-snug">
                       {achievement.title}
                     </h4>
-                    <p className="text-text-secondary text-xs 2xl:text-sm mt-1">
+                    <p className="text-text-secondary text-xs 2xl:text-sm mt-1.5 font-medium">
                       {achievement.event}
                     </p>
 
                     {/* Bottom accent line */}
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-accent to-highlight scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-accent to-highlight scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                   </div>
                 ))}
               </div>
