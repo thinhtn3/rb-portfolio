@@ -28,14 +28,28 @@ export function ScrollExpansionHero() {
 
   // Exact 21st.dev scroll mechanics
   useEffect(() => {
+    // Disable lenis while we are controlling scroll
+    if (window.lenis) {
+      if (!mediaFullyExpanded) {
+        window.lenis.stop();
+      } else {
+        window.lenis.start();
+      }
+    }
+
+    // Also disable body scroll to prevent native scroll leakage
+    if (!mediaFullyExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
     const handleWheel = (e) => {
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
         // Collapse back when scrolling up at the top
         setMediaFullyExpanded(false);
         setShowContent(false);
-        e.preventDefault();
       } else if (!mediaFullyExpanded) {
-        e.preventDefault();
         const delta = e.deltaY * 0.0009;
         const next = Math.min(Math.max(scrollProgress + delta, 0), 1);
         setScrollProgress(next);
@@ -50,9 +64,6 @@ export function ScrollExpansionHero() {
         if (next >= 1) {
           setMediaFullyExpanded(true);
         }
-      } else if (mediaFullyExpanded && e.deltaY > 0) {
-        // Allow normal scrolling once fully expanded, but add a slight "sticky" feeling
-        // by letting the user scroll naturally down to the next section
       }
     };
 
@@ -65,9 +76,7 @@ export function ScrollExpansionHero() {
       if (mediaFullyExpanded && dy < -20 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);
         setShowContent(false);
-        e.preventDefault();
       } else if (!mediaFullyExpanded) {
-        e.preventDefault();
         const factor = dy < 0 ? 0.008 : 0.005;
         const next = Math.min(Math.max(scrollProgress + dy * factor, 0), 1);
         setScrollProgress(next);
@@ -88,22 +97,15 @@ export function ScrollExpansionHero() {
 
     const handleTouchEnd = () => setTouchStartY(0);
 
-    // Lock page scroll while expanding (exact 21st.dev pattern)
-    const handleScroll = () => {
-      // Only lock scroll completely if we haven't reached 100% expansion
-      if (scrollProgress < 1 && !mediaFullyExpanded) {
-        window.scrollTo(0, 0);
-      }
-    };
-
     window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("scroll", handleScroll);
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd);
+
     return () => {
+      if (window.lenis) window.lenis.start();
+      document.body.style.overflow = '';
       window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);

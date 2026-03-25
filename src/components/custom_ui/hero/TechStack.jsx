@@ -41,14 +41,14 @@ function TechItem({ item, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       viewport={{ once: true }}
-      className="group relative flex flex-col items-center p-3 rounded-sm bg-secondary/50 hover:bg-secondary border border-white/5 hover:border-white/15 transition-all cursor-pointer"
+      className="group relative flex flex-col items-center p-2 md:p-3 rounded-sm bg-secondary/50 hover:bg-secondary border border-white/5 hover:border-white/15 transition-all cursor-pointer"
     >
       <item.Icon
-        size={28}
-        className="text-text-secondary group-hover:text-text-primary transition-colors duration-300"
+        size={24}
+        className="text-text-secondary group-hover:text-text-primary transition-colors duration-300 md:w-7 md:h-7"
         style={{ color: undefined }}
       />
-      <span className="mt-2 text-[10px] text-text-secondary group-hover:text-text-primary transition-colors uppercase tracking-wide">
+      <span className="mt-1.5 md:mt-2 text-[9px] md:text-[10px] text-text-secondary group-hover:text-text-primary transition-colors uppercase tracking-wide text-center leading-tight">
         {item.name}
       </span>
       {/* Bottom accent line */}
@@ -57,15 +57,17 @@ function TechItem({ item, index }) {
   );
 }
 
+import { RacingMark } from "@/components/custom_ui/RacingMark.jsx";
+
 export function TechStack() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-3 md:gap-6">
       {/* Languages */}
       <div>
-        <h4 className="text-sm font-bold text-text-primary mb-3 uppercase flex items-center gap-2">
-          <span className="text-accent">//</span> Languages
+        <h4 className="text-xs md:text-sm font-bold text-text-primary mb-2 md:mb-3 uppercase flex items-center gap-2">
+          <RacingMark /> Languages
         </h4>
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-5 gap-1.5 md:gap-2">
           {languages.map((lang, index) => (
             <TechItem key={lang.name} item={lang} index={index} />
           ))}
@@ -74,10 +76,10 @@ export function TechStack() {
 
       {/* Tools */}
       <div>
-        <h4 className="text-sm font-bold text-text-primary mb-3 uppercase flex items-center gap-2">
-          <span className="text-accent">//</span> Tools
+        <h4 className="text-xs md:text-sm font-bold text-text-primary mb-2 md:mb-3 uppercase flex items-center gap-2">
+          <RacingMark /> Tools
         </h4>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-1.5 md:gap-2">
           {tools.map((tool, index) => (
             <TechItem
               key={tool.name}

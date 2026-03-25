@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { motion } from "motion/react";
 import { RippleButton } from "@/components/ui/ripple-button";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
+import { RacingMark } from "@/components/custom_ui/RacingMark.jsx";
 import { SiGmail, SiLinkedin, SiGithub } from "react-icons/si";
 
 const contactMethods = [
@@ -58,14 +59,14 @@ export function Contact() {
 
       {/* Section Header */}
       <div ref={headerRef} className="mb-16 2xl:mb-20">
-        <h2 className="text-4xl 2xl:text-5xl font-bold text-text-primary uppercase tracking-wider">
-          <span className="text-accent">//</span> Contact
+        <h2 className="text-4xl 2xl:text-5xl font-bold text-text-primary uppercase tracking-wider flex items-center gap-3">
+          <RacingMark className="h-7 2xl:h-9" /> Contact
         </h2>
       </div>
 
       <div className="max-w-2xl 2xl:max-w-3xl mx-auto">
         <h3 className="text-lg 2xl:text-xl font-bold text-text-primary mb-6 2xl:mb-8 uppercase flex items-center gap-2">
-          <span className="text-accent">//</span> Get In Touch
+          <RacingMark className="h-4" /> Get In Touch
         </h3>
 
         <div className="space-y-4 2xl:space-y-6">

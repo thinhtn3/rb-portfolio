@@ -7,6 +7,7 @@ import munchImage from "@/assets/munch_demo.png";
 import lePlayImage from "@/assets/Leplay_demo.png";
 import makerSafeImage from "@/assets/makersafe.png";
 import { SectionDivider } from "@/components/custom_ui/hero/SectionDivider.jsx";
+import { RacingMark } from "@/components/custom_ui/RacingMark.jsx";
 
 const projects = [
   {
@@ -195,23 +196,23 @@ export function Projects() {
   return (
     <section
       ref={sectionRef}
-      className="bg-primary py-8 px-8 2xl:py-12 2xl:px-12 min-h-screen"
+      className="bg-primary pt-24 pb-8 px-8 2xl:pt-32 2xl:pb-12 2xl:px-12 h-screen flex flex-col"
     >
-      <SectionDivider />
+      {/* <SectionDivider /> */}
 
-      <div ref={headerRef}>
-        <h2 className="text-4xl 2xl:text-5xl font-bold text-text-primary mb-12 2xl:mb-16 uppercase tracking-wider">
-          <span className="text-accent">//</span> Projects
+      <div ref={headerRef} className="shrink-0">
+        <h2 className="text-3xl 2xl:text-4xl font-bold text-text-primary mb-6 2xl:mb-8 uppercase tracking-wider flex items-center gap-3">
+          <RacingMark className="h-7 2xl:h-9" /> Projects
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 2xl:gap-7 max-w-7xl 2xl:max-w-[1600px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-6 max-w-7xl 2xl:max-w-[1600px] mx-auto w-full flex-1 min-h-0">
         {projects.map((project, index) => (
           <div
             key={project.title}
             ref={(el) => { cardsRef.current[index] = el; }}
             className={`
-              group relative rounded-lg
+              group relative rounded-lg flex flex-col h-full
               border transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50
               ${project.winner
                 ? "bg-secondary border-accent/20 hover:border-accent/40"
@@ -227,21 +228,21 @@ export function Projects() {
             />
             {/* Winner badges */}
             {project.winner && (
-              <div className="absolute top-4 left-4 z-20 flex flex-col items-start gap-1.5 2xl:gap-2">
+              <div className="absolute top-3 left-3 z-20 flex flex-col items-start gap-1">
                 {Array.isArray(project.winner) ? (
                   project.winner.map((award, idx) => (
                     <div
                       key={idx}
-                      className="winner-badge flex items-center gap-1.5 bg-highlight/95 backdrop-blur-sm px-3 2xl:px-4 py-1 2xl:py-1.5 rounded-full shadow-lg shadow-highlight/20"
+                      className="winner-badge flex items-center gap-1 bg-highlight/95 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-md shadow-highlight/20"
                     >
-                      <span className="text-[10px] 2xl:text-xs font-black text-primary uppercase tracking-wide whitespace-nowrap">
+                      <span className="text-[8px] 2xl:text-[10px] font-black text-primary uppercase tracking-wide whitespace-nowrap">
                         🏆 {award}
                       </span>
                     </div>
                   ))
                 ) : (
-                  <div className="winner-badge flex items-center gap-1.5 bg-highlight/95 backdrop-blur-sm px-3 2xl:px-4 py-1.5 2xl:py-2 rounded-full shadow-lg shadow-highlight/20">
-                    <span className="text-xs 2xl:text-sm font-black text-primary uppercase tracking-wide">
+                  <div className="winner-badge flex items-center gap-1 bg-highlight/95 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-md shadow-highlight/20">
+                    <span className="text-[8px] 2xl:text-[10px] font-black text-primary uppercase tracking-wide">
                       🏆 {project.winner}
                     </span>
                   </div>
@@ -250,7 +251,7 @@ export function Projects() {
             )}
 
             {/* Project image */}
-            <div className={`relative overflow-hidden rounded-t-lg ${project.featured ? "h-80 2xl:h-96" : "h-52 2xl:h-64"}`}>
+            <div className="relative overflow-hidden rounded-t-lg h-32 2xl:h-44 shrink-0">
               <img
                 src={project.image}
                 alt={project.title}
@@ -261,20 +262,20 @@ export function Projects() {
             </div>
 
             {/* Content */}
-            <div className="p-6 2xl:p-8">
-              <h3 className="text-xl 2xl:text-2xl font-bold text-text-primary mb-2 2xl:mb-3 group-hover:text-highlight transition-colors duration-200">
+            <div className="p-4 2xl:p-6 flex-1 flex flex-col min-h-0">
+              <h3 className="text-lg 2xl:text-xl font-bold text-text-primary mb-1.5 group-hover:text-highlight transition-colors duration-200 line-clamp-1">
                 {project.title}
               </h3>
-              <p className="text-text-secondary text-sm 2xl:text-base mb-4 2xl:mb-5 leading-relaxed">
+              <p className="text-text-secondary text-xs 2xl:text-sm mb-3 leading-relaxed line-clamp-2">
                 {project.description}
               </p>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-1.5 2xl:gap-2 mb-5 2xl:mb-6">
+              <div className="flex flex-wrap gap-1.5 mb-3 overflow-hidden max-h-[44px] 2xl:max-h-[56px]">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs 2xl:text-sm px-2.5 2xl:px-3 py-0.5 2xl:py-1 bg-white/5 text-text-secondary rounded-full border border-white/10 hover:border-accent/50 hover:text-text-primary transition-colors duration-200"
+                    className="text-[10px] 2xl:text-xs px-2 py-0.5 bg-white/5 text-text-secondary rounded-full border border-white/10 hover:border-accent/50 hover:text-text-primary transition-colors duration-200"
                   >
                     {tag}
                   </span>
@@ -283,13 +284,13 @@ export function Projects() {
 
               {/* Links */}
               {(project.github || project.devpost) && (
-                <div className="flex gap-2 2xl:gap-3">
+                <div className="flex gap-2 mt-auto pt-2">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 2xl:gap-2 px-4 2xl:px-5 py-2 2xl:py-2.5 bg-white/5 text-text-primary text-xs 2xl:text-sm font-semibold rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-highlight transition-all duration-200"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 text-text-primary text-[10px] 2xl:text-xs font-semibold rounded-lg border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-highlight transition-all duration-200"
                     >
                       <svg className="w-4 h-4 2xl:w-5 2xl:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -302,7 +303,7 @@ export function Projects() {
                       href={project.devpost}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 2xl:gap-2 px-4 2xl:px-5 py-2 2xl:py-2.5 bg-white/5 text-text-primary text-xs 2xl:text-sm font-semibold rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-accent transition-all duration-200"
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 text-text-primary text-[10px] 2xl:text-xs font-semibold rounded-lg border border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-accent transition-all duration-200"
                     >
                       <svg className="w-4 h-4 2xl:w-5 2xl:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6.002 1.61L0 12.004L6.002 22.39h11.996L24 12.004L17.998 1.61H6.002zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31c0 4.436-3.21 6.302-6.456 6.302H7.595V5.694zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861c.009-2.569-1.096-3.853-3.767-3.853h-1.336z" />

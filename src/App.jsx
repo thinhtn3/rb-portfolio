@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import { About } from "@/components/sections/About.jsx";
 import { Projects } from "@/components/sections/Projects.jsx";
 import { Contact } from "@/components/sections/Contact.jsx";
@@ -19,6 +21,35 @@ function App() {
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
 
+  const { scrollYProgress } = useScroll();
+  const dotY = useTransform(scrollYProgress, [0, 1], ["2vh", "96vh"]);
+
+  // Initialize Lenis for smooth scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    // Make lenis globally available so ScrollExpansionHero can pause/resume it
+    window.lenis = lenis;
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      window.lenis = undefined;
+      lenis.destroy();
+      gsap.ticker.remove(lenis.raf);
+    };
+  }, []);
+
   // ScrollTrigger-driven horizontal wipe: About exits left, Projects enters right.
   useEffect(() => {
     if (!expansionReady) return;
@@ -27,40 +58,38 @@ function App() {
       const setPositions = () => {
         if (!aboutRef.current || !projectsRef.current || !wrapperRef.current) return;
         
-        const aboutHeight = aboutRef.current.offsetHeight;
-        const windowHeight = window.innerHeight;
-        // Projects should start exactly when the viewport reaches the bottom of About
-        const offset = Math.max(0, aboutHeight - windowHeight);
-        const projectsHeight = projectsRef.current.offsetHeight;
+        // We want the wipe to start exactly when the top of the About section hits the top of the viewport.
+        // Since we made About `h-screen`, offset is just 0.
+        const offset = 0;
+        
+        // Ensure About fills the screen exactly so it doesn't scroll internally
+        gsap.set(aboutRef.current, {
+          height: "100vh",
+          width: "100%",
+        });
 
         gsap.set(projectsRef.current, {
           position: "absolute",
           top: offset,
           left: 0,
           width: "100%",
+          height: "100vh",
           x: "100vw", // Start off-screen
         });
 
         gsap.set(wrapperRef.current, {
-          minHeight: offset + projectsHeight,
+          height: "100vh",
         });
       };
 
       setPositions();
       ScrollTrigger.addEventListener("refreshInit", setPositions);
 
-      const offsetCalc = () => {
-        if (!aboutRef.current) return 0;
-        return Math.max(0, aboutRef.current.offsetHeight - window.innerHeight);
-      };
-
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapperRef.current,
-          start: () => `top -${offsetCalc()}px`,
-          // Increase the end value to make the horizontal wipe take longer to complete
-          // This means the user has to scroll further down the page to finish the wipe
-          end: "+=300%", 
+          start: "top top", // Start pinning exactly when the wrapper hits the top of the viewport
+          end: "+=200%", // 200% of viewport height for the wipe duration
           pin: true,
           scrub: 1, // Smooth scrubbing
           invalidateOnRefresh: true,
@@ -85,6 +114,15 @@ function App() {
 
   return (
     <>
+      {/* Minimal yellow dot scroll progress */}
+      <motion.div
+        className="fixed top-0 right-4 w-2 h-2 rounded-full z-50 pointer-events-none"
+        style={{
+          backgroundColor: "var(--color-highlight)",
+          y: dotY,
+        }}
+      />
+      
       <SpeedBackground />
       {showLaunch && (
         <LaunchSequence
