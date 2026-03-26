@@ -55,58 +55,67 @@ function App() {
     if (!expansionReady) return;
 
     const ctx = gsap.context(() => {
-      const setPositions = () => {
-        if (!aboutRef.current || !projectsRef.current || !wrapperRef.current) return;
-        
-        // We want the wipe to start exactly when the top of the About section hits the top of the viewport.
-        // Since we made About `h-screen`, offset is just 0.
-        const offset = 0;
-        
-        // Ensure About fills the screen exactly so it doesn't scroll internally
-        gsap.set(aboutRef.current, {
-          height: "100vh",
-          width: "100%",
+      let mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        const setPositions = () => {
+          if (!aboutRef.current || !projectsRef.current || !wrapperRef.current) return;
+          
+          // Ensure About fills the screen exactly so it doesn't scroll internally
+          gsap.set(aboutRef.current, {
+            height: "100vh",
+            width: "100%",
+          });
+
+          gsap.set(projectsRef.current, {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            x: "100vw",
+          });
+
+          gsap.set(wrapperRef.current, {
+            height: "100vh",
+          });
+        };
+
+        setPositions();
+        ScrollTrigger.addEventListener("refreshInit", setPositions);
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top top", // Start pinning exactly when the wrapper hits the top of the viewport
+            end: "+=200%", // 200% of viewport height for the wipe duration
+            pin: true,
+            scrub: 1, // Smooth scrubbing
+            invalidateOnRefresh: true,
+            pinSpacing: true,
+          },
         });
 
-        gsap.set(projectsRef.current, {
-          position: "absolute",
-          top: offset,
-          left: 0,
-          width: "100%",
-          height: "100vh",
-          x: "100vw", // Start off-screen
-        });
-
-        gsap.set(wrapperRef.current, {
-          height: "100vh",
-        });
-      };
-
-      setPositions();
-      ScrollTrigger.addEventListener("refreshInit", setPositions);
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapperRef.current,
-          start: "top top", // Start pinning exactly when the wrapper hits the top of the viewport
-          end: "+=200%", // 200% of viewport height for the wipe duration
-          pin: true,
-          scrub: 1, // Smooth scrubbing
-          invalidateOnRefresh: true,
-          pinSpacing: true,
-        },
+        // The wipe animation takes up the first 80% of the timeline
+        tl.to(aboutRef.current, { x: "-50vw", ease: "none", duration: 0.8 }, 0)
+          .to(projectsRef.current, { x: "0vw", ease: "none", duration: 0.8 }, 0)
+          // Add a "dummy" tween that does nothing for the remaining 20% of the timeline
+          // This forces the user to keep scrolling while the screen stays pinned and nothing moves
+          .to({}, { duration: 0.2 });
+          
+        return () => {
+          ScrollTrigger.removeEventListener("refreshInit", setPositions);
+        };
       });
 
-      // The wipe animation takes up the first 80% of the timeline
-      tl.to(aboutRef.current, { x: "-50vw", ease: "none", duration: 0.8 }, 0)
-        .to(projectsRef.current, { x: "0vw", ease: "none", duration: 0.8 }, 0)
-        // Add a "dummy" tween that does nothing for the remaining 20% of the timeline
-        // This forces the user to keep scrolling while the screen stays pinned and nothing moves
-        .to({}, { duration: 0.2 });
-        
-      return () => {
-        ScrollTrigger.removeEventListener("refreshInit", setPositions);
-      };
+      mm.add("(max-width: 767px)", () => {
+        // On mobile, just stack them vertically normally.
+        // Clear any inline styles that might have been set by desktop view
+        gsap.set([aboutRef.current, projectsRef.current, wrapperRef.current], {
+          clearProps: "all"
+        });
+      });
+
     }, wrapperRef);
 
     return () => ctx.revert();
@@ -134,17 +143,21 @@ function App() {
       )}
       <Navbar />
       <section id="hero">{expansionReady && <ScrollExpansionHero />}</section>
-      <div ref={wrapperRef} style={{ position: "relative", overflowX: "hidden" }}>
-        <section id="about" ref={aboutRef}>
-          <About />
-        </section>
-        <section id="projects" ref={projectsRef}>
-          <Projects />
-        </section>
-      </div>
-      <section id="contact">
-        <Contact />
-      </section>
+      {expansionReady && (
+        <>
+          <div ref={wrapperRef} className="max-md:flex max-md:flex-col md:relative md:overflow-x-hidden">
+            <section id="about" ref={aboutRef} className="w-full">
+              <About />
+            </section>
+            <section id="projects" ref={projectsRef} className="w-full">
+              <Projects />
+            </section>
+          </div>
+          <section id="contact">
+            <Contact />
+          </section>
+        </>
+      )}
     </>
   );
 }

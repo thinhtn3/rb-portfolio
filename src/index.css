@@ -50,9 +50,16 @@ body {
     hue-rotate(200deg) brightness(95%) contrast(105%);
 }
 
-.group:hover .filter-primary {
-  filter: brightness(0) saturate(100%) invert(79%) sepia(57%) saturate(1000%)
-    hue-rotate(5deg) brightness(103%) contrast(104%);
+.filter-accent {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(89%) saturate(4093%) hue-rotate(343deg) brightness(91%) contrast(111%);
+}
+
+.filter-highlight {
+  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%) hue-rotate(352deg) brightness(104%) contrast(104%);
+}
+
+.group:hover .group-hover\:filter-highlight {
+  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%) hue-rotate(352deg) brightness(104%) contrast(104%);
 }
 
 @keyframes speedLine {

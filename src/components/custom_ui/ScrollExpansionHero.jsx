@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { ProfileCard } from "@/components/custom_ui/hero/ProfileCard.jsx";
-import { Hyperlinks } from "@/components/custom_ui/hero/Hyperlinks.jsx";
+import { Hyperlinks, hyperlinks } from "@/components/custom_ui/hero/Hyperlinks.jsx";
 import { RippleButton } from "@/components/ui/ripple-button";
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -28,6 +28,8 @@ export function ScrollExpansionHero() {
 
   // Exact 21st.dev scroll mechanics
   useEffect(() => {
+    if (isMobile) return; // Skip scroll locking on mobile
+
     // Disable lenis while we are controlling scroll
     if (window.lenis) {
       if (!mediaFullyExpanded) {
@@ -110,69 +112,145 @@ export function ScrollExpansionHero() {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY, isMobile]);
 
-  // Match ProfileCard's Tailwind fixed sizes exactly:
-  // w-[320px] h-[440px]  →  default
-  // 2xl:w-[440px] 2xl:h-[605px]  →  ≥ 1536px
-  // min-[1920px]:w-[520px] min-[1920px]:h-[715px]  →  ≥ 1920px
+  // Responsive breakpoints
   const vw = window.innerWidth;
   const vh = window.innerHeight;
+  const isLg  = vw >= 1024;
+  const isXl  = vw >= 1280;
+  const is2Xl = vw >= 1536;
+  const is4K  = vw >= 1920;
 
-  let baseCardW = 320;
-  let baseCardH = 440;
-  if (vw >= 1920) {
-    baseCardW = 520;
-    baseCardH = 715;
-  } else if (vw >= 1536) {
-    baseCardW = 440;
-    baseCardH = 605;
-  }
+  // ProfileCard rendered sizes (must match its Tailwind classes)
+  let baseCardW = 320, baseCardH = 440;
+  if (is4K)       { baseCardW = 520; baseCardH = 715; }
+  else if (is2Xl) { baseCardW = 440; baseCardH = 605; }
+  else if (isXl)  { baseCardW = 400; baseCardH = 550; }
+  else if (isLg)  { baseCardW = 370; baseCardH = 510; }
 
-  // Cap at ~80% of viewport for very large screens, but 70% for laptop/standard desktop
-  const maxW = vw >= 1920 ? vw * 0.82 : vw * 0.7;
-  const maxH = vw >= 1920 ? vh * 0.82 : vh * 0.7;
+  // Container max size — more generous on lg+ so the left column has room
+  const NAV_H = 68; // fixed navbar height
+  const maxW = is4K ? vw * 0.82 : is2Xl ? vw * 0.86 : isLg ? vw * 0.90 : vw * 0.7;
+  const maxH = is4K ? (vh - NAV_H) * 0.92 : is2Xl ? (vh - NAV_H) * 0.92 : isLg ? (vh - NAV_H) * 0.94 : (vh - NAV_H) * 0.80;
 
-  // Maintain aspect ratio when scaling down
   const scale = Math.min(1, maxW / baseCardW, maxH / baseCardH);
   const cardW = baseCardW * scale;
   const cardH = baseCardH * scale;
 
-  // Adjust expansion multiplier based on the new max sizes
-  const mediaWidth =
-    cardW +
-    scrollProgress *
-      (isMobile ? 600 : vw >= 1920 ? 1600 : vw >= 1536 ? 1300 : 1000);
-  const mediaHeight =
-    cardH +
-    scrollProgress *
-      (isMobile ? 180 : vw >= 1920 ? 500 : vw >= 1536 ? 400 : 300);
+  // Expansion amounts tuned per breakpoint
+  const expandW = isMobile ? 600 : is4K ? 1600 : is2Xl ? 1300 : isXl ? 1100 : isLg ? 1000 : 800;
+  const expandH = isMobile ? 180 : is4K ? 500  : is2Xl ? 400  : isXl ? 340  : isLg ? 310  : 220;
 
-  const clampedW = Math.min(mediaWidth, maxW);
-  const clampedH = Math.min(mediaHeight, maxH);
+  const clampedW = Math.min(cardW + scrollProgress * expandW, maxW);
+  const clampedH = Math.min(cardH + scrollProgress * expandH, maxH);
 
-  // Title: hidden until card grows to ~30% expansion, then fades in then back out
+  // Split title animation
   const textTranslateX = scrollProgress * (isMobile ? 80 : 120);
   const textRise = Math.min(1, Math.max(0, (scrollProgress - 0.15) / 0.2));
   const textFall = Math.min(1, Math.max(0, 1 - (scrollProgress - 0.5) / 0.25));
   const textOpacity = Math.min(textRise, textFall);
 
-  // Content reveal logic - wait until 75% expanded
   useEffect(() => {
-    if (scrollProgress >= 0.75) {
-      setShowContent(true);
-    } else {
-      setShowContent(false);
-    }
+    setShowContent(scrollProgress >= 0.75);
   }, [scrollProgress]);
 
-  // Padding inside the expanded box
-  const innerPad = Math.round(clamp(scrollProgress, 0, 1) * 40); // 0 → 40px as card expands
-
-  // Right pad grows from 0 (card flush at start) to 28px when fully expanded
+  // Right pad grows from 0 → 28px as card expands
   const cardRightPad = Math.round(scrollProgress * 28);
   const colGap = 24;
   const leftW = Math.max(0, clampedW - cardW - cardRightPad - colGap);
+
+  // Left column inner padding — scales down on smaller lg screens
+  const leftHorizPad = is4K ? 80 : is2Xl ? 56 : isXl ? 44 : isLg ? 36 : 20;
+
+  if (isMobile) {
+    return (
+      <div className="min-h-[100svh] flex flex-col items-center justify-center relative bg-primary px-6 py-12 overflow-hidden">
+        {/* Top accent bar */}
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-accent z-10" />
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex flex-col items-center z-10 w-full max-w-sm mt-12"
+        >
+          {/* Name */}
+          <div className="flex flex-wrap font-extrabold justify-center text-center mb-6" style={{ gap: "0.3em", lineHeight: 1 }}>
+            <span className="text-text-primary font-black uppercase text-5xl tracking-tight">Thinh</span>
+            <span className="font-black uppercase text-5xl tracking-tight text-accent">Nguyen</span>
+          </div>
+
+          {/* Slogan */}
+          <p className="text-gray-400 text-center mb-10 text-sm leading-relaxed">
+            Building high-performance software with precision and speed.
+            Specializing in backend development.
+          </p>
+
+          {/* Social links */}
+          <div className="mb-8 w-full">
+            <div className="grid grid-cols-2 gap-3 w-full">
+              {hyperlinks.map((hyperlink, index) => (
+                <motion.a
+                  key={hyperlink.name}
+                  href={hyperlink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                  className="w-full"
+                >
+                  <RippleButton
+                    rippleColor="#FCD116"
+                    className="bg-accent w-full h-12 rounded-sm group font-bold uppercase tracking-wide"
+                  >
+                    <div className="flex flex-row items-center justify-center gap-2">
+                      <img
+                        src={hyperlink.icon}
+                        alt={hyperlink.name}
+                        className="w-5 h-5 transition-all duration-300 group-hover:filter-primary"
+                        style={{
+                          filter:
+                            "brightness(0) saturate(100%) invert(4%) sepia(15%) saturate(4500%) hue-rotate(200deg) brightness(95%) contrast(105%)",
+                        }}
+                      />
+                      <span className="text-primary text-xs transition-colors duration-300 group-hover:text-text-primary">
+                        {hyperlink.name}
+                      </span>
+                    </div>
+                  </RippleButton>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          {/* Nav buttons */}
+          <div className="flex flex-col gap-3 w-full">
+            {NAV_BUTTONS.map((btn) => (
+              <button
+                key={btn.name}
+                className="cursor-pointer w-full"
+                onClick={() => {
+                  document.querySelector(btn.href)?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <RippleButton
+                  className="bg-transparent border-2 border-accent hover:bg-accent/10 w-full h-12 rounded-sm group font-bold uppercase tracking-wide"
+                  rippleColor="var(--color-accent)"
+                >
+                  <span className="text-accent group-hover:text-highlight transition-colors flex items-center justify-center gap-2 text-sm">
+                    {btn.name}
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </span>
+                </RippleButton>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <section
@@ -183,8 +261,10 @@ export function ScrollExpansionHero() {
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         {/* ── Expanding card (the "media" equivalent) ── */}
         <div
-          className="absolute z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute z-0 left-1/2"
           style={{
+            top: "50%",
+            transform: "translate(-50%, calc(-50% + 34px))",
             width: clampedW,
             height: clampedH,
             backgroundColor: "var(--color-primary)",
@@ -205,7 +285,7 @@ export function ScrollExpansionHero() {
             style={{
               left: 0,
               width: leftW,
-              padding: leftW > 80 ? "2rem clamp(28px, 5vw, 100px)" : 0,
+              padding: leftW > 80 ? `2rem ${leftHorizPad}px` : 0,
               pointerEvents: showContent ? "auto" : "none",
             }}
           >
@@ -217,7 +297,7 @@ export function ScrollExpansionHero() {
               <span
                 className="text-text-primary font-black uppercase"
                 style={{
-                  fontSize: "clamp(2.2rem, 5vw, 6.5rem)",
+                  fontSize: "clamp(1.6rem, 3.8vw, 6.5rem)",
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -226,7 +306,7 @@ export function ScrollExpansionHero() {
               <span
                 className="font-black uppercase"
                 style={{
-                  fontSize: "clamp(2.2rem, 5vw, 6.5rem)",
+                  fontSize: "clamp(1.6rem, 3.8vw, 6.5rem)",
                   letterSpacing: "-0.02em",
                   color: "var(--color-accent)",
                 }}
@@ -237,10 +317,10 @@ export function ScrollExpansionHero() {
 
             {/* Slogan */}
             <p
-              className="text-gray-400 mt-4"
+              className="text-gray-400 mt-3"
               style={{
-                fontSize: "clamp(0.85rem, 1.3vw, 1.3rem)",
-                maxWidth: "44ch",
+                fontSize: "clamp(0.8rem, 1.15vw, 1.3rem)",
+                maxWidth: "40ch",
                 lineHeight: 1.6,
               }}
             >
@@ -254,7 +334,7 @@ export function ScrollExpansionHero() {
             </div>
 
             {/* Nav buttons */}
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-3 xl:mt-5 flex flex-wrap gap-2 xl:gap-3 2xl:gap-5">
               {NAV_BUTTONS.map((btn) => (
                 <button
                   key={btn.name}
@@ -270,11 +350,11 @@ export function ScrollExpansionHero() {
                     );
                   }}
                 >
-                  <RippleButton
-                    className="bg-transparent border-2 border-accent hover:bg-accent/10 w-44 h-12 2xl:w-52 2xl:h-14 min-[1920px]:w-60 min-[1920px]:h-16 rounded-sm group font-bold uppercase tracking-wide"
-                    rippleColor="var(--color-accent)"
-                  >
-                    <span className="text-accent group-hover:text-highlight transition-colors flex items-center justify-center gap-2 text-sm 2xl:text-base min-[1920px]:text-lg">
+                <RippleButton
+                  className="bg-transparent border border-accent hover:bg-accent/10 w-24 lg:w-28 xl:w-32 2xl:w-52 min-[1920px]:w-60 h-8 lg:h-9 xl:h-10 2xl:h-14 min-[1920px]:h-16 rounded-sm group font-bold uppercase tracking-wide"
+                  rippleColor="var(--color-accent)"
+                >
+                    <span className="text-accent group-hover:text-highlight transition-colors flex items-center justify-center gap-1 text-[9px] lg:text-[10px] xl:text-xs 2xl:text-base min-[1920px]:text-lg">
                       {btn.name}
                       <span className="group-hover:translate-x-1 transition-transform">
                         →
@@ -311,8 +391,8 @@ export function ScrollExpansionHero() {
 
         {/* ── Split title (exact 21st.dev pattern) ── */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center pointer-events-none select-none w-full"
-          style={{ gap: "0.1em" }}
+          className="absolute left-1/2 z-10 flex flex-col items-center pointer-events-none select-none w-full"
+          style={{ top: "50%", transform: "translate(-50%, calc(-50% + 34px))", gap: "0.1em" }}
         >
           <div
             style={{
