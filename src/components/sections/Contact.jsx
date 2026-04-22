@@ -9,8 +9,8 @@ import { SiGmail, SiLinkedin, SiGithub } from "react-icons/si";
 const contactMethods = [
   {
     label: "Email",
-    value: "thinhtn3@uci.edu",
-    href: "mailto:thinhtn3@uci.edu",
+    value: "thinhttnguyen@gmail.com",
+    href: "mailto:thinhttnguyen@gmail.com",
     icon: SiGmail,
   },
   {
@@ -53,29 +53,32 @@ export function Contact() {
   return (
     <section
       ref={sectionRef}
-      className="bg-black py-8 px-8 2xl:py-12 2xl:px-12 min-h-screen"
+      className="bg-black py-8 px-6 md:px-8 2xl:py-12 2xl:px-12 min-h-screen"
     >
       <SectionDivider />
 
       {/* Section Header */}
-      <div ref={headerRef} className="mb-16 2xl:mb-20">
-        <h2 className="text-4xl 2xl:text-5xl font-bold text-text-primary uppercase tracking-wider flex items-center gap-3">
-          <RacingMark className="h-7 2xl:h-9" /> Contact
+      <div ref={headerRef} className="mb-8 md:mb-12 xl:mb-16 2xl:mb-20">
+        <p className="text-[8px] xl:text-[9px] 2xl:text-sm text-accent/60 uppercase tracking-[0.25em] font-bold mb-0.5 2xl:mb-2">
+          Pit Lane
+        </p>
+        <h2 className="text-2xl xl:text-3xl 2xl:text-5xl font-black text-text-primary uppercase tracking-wider flex items-center gap-3">
+          <RacingMark className="h-5 xl:h-7 2xl:h-9" /> Contact
         </h2>
       </div>
 
       <div className="max-w-2xl 2xl:max-w-3xl mx-auto">
-        <h3 className="text-lg 2xl:text-xl font-bold text-text-primary mb-6 2xl:mb-8 uppercase flex items-center gap-2">
-          <RacingMark className="h-4" /> Get In Touch
-        </h3>
-
         <div className="space-y-4 2xl:space-y-6">
           {contactMethods.map((method, index) => (
             <motion.a
               key={method.label}
               href={method.href}
               target={method.href.startsWith("http") ? "_blank" : undefined}
-              rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              rel={
+                method.href.startsWith("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -88,7 +91,10 @@ export function Contact() {
             >
               {/* Icon */}
               <div className="absolute top-4 right-4 2xl:top-6 2xl:right-6 text-3xl opacity-50 group-hover:opacity-100 transition-opacity">
-                <method.icon className="w-6 h-6 2xl:w-8 2xl:h-8" color="#FFFFFF" />
+                <method.icon
+                  className="w-6 h-6 2xl:w-8 2xl:h-8"
+                  color="#FFFFFF"
+                />
               </div>
 
               <span className="text-xs 2xl:text-sm text-accent font-bold uppercase tracking-wide">
@@ -108,12 +114,16 @@ export function Contact() {
           ))}
         </div>
 
-        {/* CTA Button */}
+        {/* CTA Button
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{
+            duration: 0.5,
+            delay: 0.3,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
           className="mt-8 2xl:mt-10"
         >
           <a href="mailto:thinhtn3@uci.edu">
@@ -126,9 +136,9 @@ export function Contact() {
               </span>
             </RippleButton>
           </a>
-        </motion.div>
+        </motion.div> */}
 
-        {/* Footer note */}
+        {/* Footer note
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -145,8 +155,12 @@ export function Contact() {
           >
             LinkedIn
           </a>
-        </motion.p>
+        </motion.p> */}
       </div>
+
+      <p className="text-center text-text-secondary/40 text-xs mt-32 2xl:mt-40">
+        © {new Date().getFullYear()} Thinh Nguyen. All rights reserved.
+      </p>
     </section>
   );
 }

@@ -41,8 +41,8 @@ body {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 * {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .filter-primary {
@@ -51,15 +51,18 @@ body {
 }
 
 .filter-accent {
-  filter: brightness(0) saturate(100%) invert(16%) sepia(89%) saturate(4093%) hue-rotate(343deg) brightness(91%) contrast(111%);
+  filter: brightness(0) saturate(100%) invert(16%) sepia(89%) saturate(4093%)
+    hue-rotate(343deg) brightness(91%) contrast(111%);
 }
 
 .filter-highlight {
-  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%) hue-rotate(352deg) brightness(104%) contrast(104%);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%)
+    hue-rotate(352deg) brightness(104%) contrast(104%);
 }
 
 .group:hover .group-hover\:filter-highlight {
-  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%) hue-rotate(352deg) brightness(104%) contrast(104%);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(35%) saturate(1210%)
+    hue-rotate(352deg) brightness(104%) contrast(104%);
 }
 
 @keyframes speedLine {

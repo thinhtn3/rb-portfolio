@@ -2,65 +2,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import siteLogo from "@/assets/site_icon.svg";
 
-function F1CarSVG() {
-  return (
-    <svg viewBox="0 0 110 36" width="56" height="18" xmlns="http://www.w3.org/2000/svg">
-      {/* Rear wing — vertical strut + top blade */}
-      <rect x="4" y="8" width="3" height="14" fill="#B11226" />
-      <rect x="1" y="8" width="10" height="2.5" fill="#FCD116" />
-
-      {/* Main body */}
-      <path
-        d="M7,26 L9,15 L22,11 L68,11 L82,15 L92,20 L94,26 Z"
-        fill="#B11226"
-      />
-      {/* Body highlight stripe */}
-      <path
-        d="M22,11 L68,11 L70,13.5 L20,13.5 Z"
-        fill="#FCD116"
-        opacity="0.6"
-      />
-
-      {/* Cockpit opening */}
-      <path
-        d="M32,11 L37,4 L58,4 L63,11 Z"
-        fill="#060C1F"
-      />
-      {/* Halo */}
-      <path
-        d="M38,4 L42,2 L54,2 L58,4 Z"
-        fill="#0A1A3F"
-        stroke="#B11226"
-        strokeWidth="0.5"
-      />
-
-      {/* Front nose taper */}
-      <path
-        d="M88,20 L106,22 L106,25 L88,26 Z"
-        fill="#B11226"
-      />
-      {/* Front wing */}
-      <path
-        d="M96,24 L110,22 L110,27 L96,28 Z"
-        fill="#FCD116"
-      />
-      <rect x="106" y="22" width="2" height="6" fill="#B11226" />
-
-      {/* Rear wheel */}
-      <circle cx="20" cy="27" r="7.5" fill="#111" />
-      <circle cx="20" cy="27" r="3.5" fill="#222" />
-      <circle cx="20" cy="27" r="1.2" fill="#444" />
-
-      {/* Front wheel */}
-      <circle cx="80" cy="27" r="7.5" fill="#111" />
-      <circle cx="80" cy="27" r="3.5" fill="#222" />
-      <circle cx="80" cy="27" r="1.2" fill="#444" />
-
-      {/* Floor/underfloor */}
-      <rect x="9" y="25.5" width="85" height="1.5" fill="#8B0E1E" opacity="0.7" />
-    </svg>
-  );
-}
 
 const navLinks = [
   { name: "Home", href: "#hero", pos: "P1" },
@@ -201,17 +142,13 @@ export function Navbar() {
                       </div>
                     </div>
 
-                    {/* F1 car active indicator */}
+                    {/* Active dot indicator */}
                     {isActive && (
                       <motion.div
-                        layoutId="activeCarIndicator"
-                        className="absolute -bottom-5 2xl:-bottom-6 left-1/2 -translate-x-1/2"
+                        layoutId="activeIndicator"
+                        className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-highlight"
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                      >
-                        <F1CarSVG />
-                        {/* Glow under the car */}
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full blur-sm" style={{ backgroundColor: "rgba(177,18,38,0.6)" }} />
-                      </motion.div>
+                      />
                     )}
                   </a>
                 );
